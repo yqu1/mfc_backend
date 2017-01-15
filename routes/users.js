@@ -100,7 +100,8 @@ router.get('/facebook/callback', function(req,res,next){
               res.status(200).json({
         status: 'Login successful!',
         success: true,
-        token: token
+        token: token,
+        username: user.username
       });
     });
   })(req,res,next);
