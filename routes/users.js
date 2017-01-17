@@ -6,7 +6,10 @@ var Verify = require('./verify');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  User.find({}, function(err, users) {
+  	if(err) throw err;
+  	res.json(users)
+  })
 });
 
 router.post('/register', function(req, res) {
@@ -62,7 +65,8 @@ router.post('/login', function(req, res, next) {
 			res.status(200).json({
 				status: 'Login Successful!',
 				success: true,
-				token: token
+				token: token,
+				userId: user._id
 			})
 		})
 
