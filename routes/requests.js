@@ -3,7 +3,6 @@ var bodyParser = require('body-parser');
 var requestRouter = express.Router();
 var mongoose = require('mongoose');
 var Verify = require('./verify');
-var mongodb = require('mongodb');
 
 var Requests = require('../models/request');
 
