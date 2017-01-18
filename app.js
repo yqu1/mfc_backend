@@ -23,6 +23,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var requestRouter = require('./routes/requests');
 var duelRouter = require('./routes/duels')
+var matchRouter = require('./routes/matches')
 
 var app = express();
 
@@ -49,6 +50,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/requests', requestRouter);
 app.use('/duels', duelRouter)
+app.use('/matches', matchRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

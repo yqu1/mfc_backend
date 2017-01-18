@@ -12,6 +12,8 @@ matchRouter.use(bodyParser.json())
 matchRouter.route('/')
 
 .get(Verify.verifyOrdinaryUser, function (req, res, next) {
+	req.query = JSON.parse(req.query.q)
+	console.log(req.query)
 	Matches.find(req.query, function(err, matches) {
 		if(err) throw err;
 		console.log(matches);
@@ -21,12 +23,12 @@ matchRouter.route('/')
 
 
 .post(Verify.verifyOrdinaryUser, function(req, res, next) {
-	console.log(req.decoded)
-	Matches.findOne({'from': req.decoded._id, 'to': req.body.to, 'date': req.body.date}, function(err, matches) {
+	console.log(req.body)
+	Matches.findOne({'from': req.body.from, 'to': req.body.to, 'date': req.body.date}, function(err, matches) {
 		if(err) throw err;
 		if(matches === null) {
 			Matches.create({
-				from: req.decoded._id, 
+				from: req.body.from, 
 				to: req.body.to, 
 				date: req.body.date, 
 				status: req.body.status,
@@ -34,15 +36,20 @@ matchRouter.route('/')
 			}, function(err, match) {
 				if(err) throw err;
 				console.log(match)
-				console.log('request created!');
+				console.log('match created!');
 				var id = match._id;
 				res.writeHead(200, {
 					'Content-Type': 'text/plain'
 				});
-				res.end('Added request with id: ' + id)
+				res.end('Added match with id: ' + id)
 			})
 		}
 		else {
+			matches.from = req.body.from;
+			matches.to = req.body.to;
+			matches.message = req.body.message;
+			matches.status = req.body.status;
+			matches.record = req.body.record;
 			matches.date = req.body.date;
 
 			matches.save(function(err, r) {
@@ -55,3 +62,6 @@ matchRouter.route('/')
 		}
 	})
 })
+
+
+module.exports = matchRouter;
